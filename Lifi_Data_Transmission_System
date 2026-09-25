@@ -1,0 +1,124 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
+#define LDR_PIN 8
+
+unsigned long pulseCount = 0;
+unsigned long lastChangeTime = 0;
+int lastState = HIGH;
+bool messageReceived = false;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LDR_PIN, INPUT_PULLUP);
+  
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.print("LiFi Project");
+  delay(3000);
+  lcd.clear();
+  lcd.print("Send message");
+  lcd.setCursor(0, 1);
+  lcd.print("from LiFi App..");
+  delay(2000);
+  lcd.clear();
+  lcd.print("Ready...");
+}
+
+void loop() {
+  int currentState = digitalRead(LDR_PIN);
+  
+  // Detect falling edge (light goes OFF)
+  if (lastState == HIGH && currentState == LOW) {
+    lastChangeTime = millis();
+    pulseCount++;
+  }
+  
+  // Detect rising edge (light comes back ON) - End of sequence
+  if (lastState == LOW && currentState == HIGH) {
+    unsigned long darkDuration = millis() - lastChangeTime;
+    
+    // If light was off for more than 500ms, it's end of transmission
+    if (darkDuration > 500 && pulseCount > 0) {
+      decodeMessage(pulseCount);
+      pulseCount = 0;
+      messageReceived = true;
+    }
+  }
+  
+  // Timeout: if no change for 1 second and we have pulses, decode
+  if (pulseCount > 0 && (millis() - lastChangeTime) > 1000) {
+    decodeMessage(pulseCount);
+    pulseCount = 0;
+  }
+  
+  lastState = currentState;
+  delay(50); // Small delay for stability
+}
+
+void decodeMessage(unsigned long count) {
+  lcd.clear();
+  Serial.print("Pulse count: ");
+  Serial.println(count);
+  
+  switch(count) {
+    case 1:
+      lcd.print("hi");
+      Serial.println("Received: hi");
+      break;
+      
+    case 2:
+      lcd.print("hello");
+      Serial.println("Received: hello");
+      break;
+      
+    case 3:
+      lcd.print("how are you?");
+      Serial.println("Received: how are you?");
+      break;
+      
+    case 4:
+      lcd.print("I am fine");
+      Serial.println("Received: I am fine");
+      break;
+      
+    case 5:
+      lcd.print("ok");
+      Serial.println("Received: ok");
+      break;
+      
+    case 6:
+      lcd.print("good morning");
+      Serial.println("Received: good morning");
+      break;
+      
+    case 7:
+      lcd.print("good afternoon");
+      Serial.println("Received: good afternoon");
+      break;
+      
+    case 8:
+      lcd.print("good evening");
+      Serial.println("Received: good evening");
+      break;
+      
+    case 9:
+      lcd.print("thank you");
+      Serial.println("Received: thank you");
+      break;
+      
+    case 10:
+      lcd.print("sorry");
+      Serial.println("Received: sorry");
+      break;
+      
+    default:
+      lcd.print("Unknown: ");
+      lcd.print(count);
+      lcd.setCursor(0, 1);
+      lcd.print("pulses");
+      Serial.print("Unknown message - pulses: ");
+      Serial.println(count);
+      break;
+  }
+}
