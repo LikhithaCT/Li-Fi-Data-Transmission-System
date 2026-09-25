@@ -59,11 +59,12 @@ Pulses	Message
 
 ## 📈 Observation Table
 
-S.No  --	Message Sent (via App) --	Light Detection by LDR --	Decoded Message on LCD --	Result
-1 --	Hi --	Detected --	Hi --	Successful
-2	-- Hello	-- Detected	-- Hello	-- Successful
-3 --	Good Morning --	Detected --	Good Morning --	Successful
-4	-- Thank you --	Detected --	Thank you	-- Successful
+| S.No  |	Message Sent (via App) |	Light Detection by LDR |	Decoded Message on LCD |	Result |
+|-------|------------------------|-------------------------|-------------------------|---------|
+| 1 |	Hi |	Detected |	Hi |	Successful |
+| 2	| Hello	| Detected	| Hello	| Successful |
+| 3 |	Good Morning |	Detected |	Good Morning |	Successful |
+| 4	| Thank you |	Detected |	Thank you	| Successful |
 
 ##🚀 Getting Started
 
