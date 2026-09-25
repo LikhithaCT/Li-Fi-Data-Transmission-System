@@ -76,6 +76,7 @@ Use a compatible Li-Fi transmitter Android app to flash messages via your phone'
 Point the flashlight at the LDR sensor and send a message — it will appear on the LCD.
 
 ##👥 Team
+
 Likhitha C T — 1AT24EC417
 Sahana A — 1AT24EC425
 
