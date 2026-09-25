@@ -13,6 +13,7 @@ To design and implement a Li-Fi based data transfer system using LEDs and an LDR
 -Regulator Circuitry
 -Switches
 -LEDs
+-breadboard
 -Resistors
 -Capacitors
 -Transistors
